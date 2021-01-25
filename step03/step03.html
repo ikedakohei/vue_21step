@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="utf-8">
+<title>データの表示</title>
+<style>
+  .input-container {
+    display: grid;
+    grid-template-rows: 200px 50px;
+    grid-template-columns: 300px 300px;
+    grid-template-areas:
+      "inputArea previewArea"
+      "buttonArea buttonArea";
+    grid-gap: 10px;
+  }
+  .inputArea {
+    grid-area: inputArea;
+    display: grid;
+  }
+  .previewArea {
+    grid-area: previewArea;
+    display: grid;
+  }
+  .buttonArea {
+    grid-area: buttonArea;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+  }
+  .filterArea {
+    display: grid;
+    grid-template-columns: 300px 300px;
+    grid-gap: 10px;
+  }
+  table {
+    margin-top: 10px;
+    width: 610px;
+    border-collapse: collapse;
+  }
+  th, td {
+    text-align: left;
+    width: 50%;
+    padding-left: 5px;
+    word-break: break-all;
+  }
+</style>
+<div id="app">
+  <div class="input-container">
+    <form class="inputArea">
+      <p>ユーザー登録</p>
+      <label>ニックネーム</label>
+      <input v-model="nickname">
+      <label>メールアドレス</label>
+      <input v-model="email">
+    </form>
+    <div class="previewArea">
+      <p>プレビュー</p>
+      <label>ニックネーム</label>
+      <input v-bind:value="nickname" readonly>
+      <label>メールアドレス</label>
+      <input v-bind:value="email" readonly>
+    </div>
+    <div class="buttonArea">
+      <button v-on:click="saveUser">ユーザー登録をする</button>
+    </div>
+    <div>
+      <div class="filterArea">
+        <label>リストをニックネームで絞り込む</label>
+        <input v-model="nicknameFilter">
+      </div>
+      <table>
+        <thead>
+          <th>ニックネーム</th>
+          <th>メールアドレス</th>
+        </thead>
+        <tbody>
+          <tr v-for="user in filteredUsers">
+            <td>{{ user.nickname }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.js"></script>
+<script>
+  const app = Vue.createApp({
+    data: () => ({
+      users: [],
+      nickname: '',
+      email: '',
+      nicknameFilter: '',
+    }),
+    methods: {
+      saveUser: function () {
+        // 登録したユーザーをメモリに保存
+        let user = {
+          nickname: this.nickname,
+          email: this.email,
+        };
+        this.users.push(user);
+        alert('ニックネーム: ' + this.nickname + '、メールアドレス: ' + this.email + 'で登録しました。');
+      },
+    },
+    computed: {
+      filteredUsers: function () {
+        console.log('called.')
+        return this.users.filter(user => user.nickname.includes(this.nicknameFilter));
+      }
+    },
+  });
+  app.mount('#app');
+</script>
