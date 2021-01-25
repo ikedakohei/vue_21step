@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<meta charset="utf-8">
+<title>hello world</title>
+<div id="app">
+  <p>{{ display }}</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.js"></script>
+<script>
+  const app = Vue.createApp({
+    data: () => ({
+      display: 'Hello World!'
+    }),
+  });
+  app.mount('#app');
+</script>
